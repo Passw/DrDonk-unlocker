@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Unlocker 3.0.3 for VMware Workstation"
+echo "Unlocker 3.0.5 for VMware Workstation"
 echo "====================================="
 echo "(c) Dave Parsons 2011-21"
 
@@ -26,6 +26,5 @@ fi
 
 echo Removing backup files...
 rm -rfv ./backup
-rm -rfv ./tools
 
 echo Finished!

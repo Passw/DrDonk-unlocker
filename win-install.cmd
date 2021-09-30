@@ -1,7 +1,7 @@
 @echo off
 setlocal ENABLEEXTENSIONS
 echo.
-echo Unlocker 3.0.3 for VMware Workstation
+echo Unlocker 3.0.5 for VMware Workstation
 echo =====================================
 echo (c) Dave Parsons 2011-21
 echo.
@@ -44,10 +44,6 @@ xcopy /F /Y "%InstallPath%vmwarebase.dll" .\backup\
 echo.
 echo Patching...
 .\python-win-embed-amd64\python.exe unlocker.py
-
-echo.
-echo Getting VMware Tools...
-.\python-win-embed-amd64\python.exe gettools.py
 
 echo.
 echo Starting VMware services...

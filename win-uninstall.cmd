@@ -1,7 +1,7 @@
 @echo off
 setlocal ENABLEEXTENSIONS
 echo.
-echo Unlocker 3.0.3 for VMware Workstation
+echo Unlocker 3.0.5 for VMware Workstation
 echo =====================================
 echo (c) Dave Parsons 2011-21
 
@@ -32,11 +32,6 @@ echo.
 echo Restoring files...
 xcopy /F /Y .\backup\x64\*.* "%InstallPath%x64\"
 xcopy /F /Y .\backup\*.* "%InstallPath%"
-
-echo.
-echo Removing backup files...
-rd /s /q .\backup > NUL 2>&1
-rd /s /q .\tools > NUL 2>&1
 
 echo.
 echo Starting VMware services...

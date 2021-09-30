@@ -39,10 +39,6 @@ being patched:
 
 * Fix vmware-vmx and derivatives to allow macOS to boot
 * Fix vmwarebase.dll or .so to allow Apple to be selected during VM creation
-* Download a copy of the latest VMware Tools for macOS
-
-**Note:** VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
-You will have to manually mount the darwin.iso by selectig the ISO file in the guest's settings.
 
 In all cases make sure VMware is not running, and any background guests have been shutdown.
 
@@ -73,7 +69,28 @@ by running chmod +x against the 2 files.
 - lnx-uninstall.sh - restores VMware
 - lnx-update-tools.sh - retrieves latest macOS guest tools
    
-## 5. Thanks
+
+## 5. VMware Downloads
+
+These URLs will link to the latest versions of VMware's hosted products:
+
+* VMware Fusion https://vmware.com/go/getfusion
+* VMware Workstation for Windows https://www.vmware.com/go/getworkstation-win
+* VMware Workstation for Linux https://www.vmware.com/go/getworkstation-linux
+* VMware Player for Windows https://www.vmware.com/go/getplayer-win
+* VMware Player for Linux https://www.vmware.com/go/getplayer-linux
+
+## 5. VMware Tools
+VMware Tools fror Mac OS X and macOS can be downloaded from these URLs:
+
+* Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
+* macOS 10.11+ https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x
+
+**Note:** VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
+You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
+
+
+## 6. Thanks
 Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knife
 (MSoK) for all the testing and support.
 
@@ -99,5 +116,10 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 
 01/06/21 3.0.4
 - Fixed embedded Python error on Windows
+
+30/09/21 3.0.5
+- Removed gettools.py as can directly donwload from VMware web site
+- Added URLs to get Mac OS X legacy and macOS current tools
+- Added URLs to get latest VMware hosted products
 
 (c) 2011-2021 Dave Parsons
