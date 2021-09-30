@@ -359,8 +359,8 @@ def main():
         vmx = joinpath(vmx_path, 'vmware-vmx')
         vmx_debug = joinpath(vmx_path, 'vmware-vmx-debug')
         vmx_stats = joinpath(vmx_path, 'vmware-vmx-stats')
+        vmx_so = True
         if os.path.isfile('/usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so'):
-            vmx_so = True
             vmwarebase = '/usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so'
         else:
             vmwarebase = '/usr/lib/vmware/lib/libvmwarebase.so.0/libvmwarebase.so.0'
