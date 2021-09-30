@@ -126,7 +126,7 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 - Fixed embedded Python error on Windows
 
 30/09/21 3.0.5
-- Removed gettools.py as can directly donwload from VMware web site
+- Removed gettools.py as can directly download from VMware web site
 - Added URLs to get Mac OS X legacy and macOS current tools
 - Added URLs to get latest VMware hosted products
 
