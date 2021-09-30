@@ -20,7 +20,7 @@ printf "VMware product version: %s.%s\n\n" "$version" "$build"
 
 # Check version is 14+
 if [[ ${product[0]} -lt 12 ]]; then
-   printf "VMware Workatation/Player version 12 or greater required!\n"
+   printf "VMware Workstation/Player version 12 or greater required!\n"
    exit 1
 fi
 

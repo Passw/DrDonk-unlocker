@@ -18,12 +18,12 @@ You use this software at your own risk and there are no guarantees this will wor
 in future versions of VMware Workstation.
 
 ## 1. Introduction
-Unlocker 3 is designed for VMware Workstation 11-16 and Player 7-16.
+Unlocker 3 is designed for VMware Workstation 12-16 and Player 12-16.
 
 Version 3 has been tested against:
 
-* Workstation 11/12/14/15/16 on Windows and Linux
-* Workstation Player 7/12/14/15/16 on Windows and Linux
+* Workstation 12/14/15/16 on Windows and Linux
+* Workstation Player 12/14/15/16 on Windows and Linux
 
 
 It is important to understand that the unlocker does not add any new capabilities to VMware Workstation and Player

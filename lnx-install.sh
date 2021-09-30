@@ -14,6 +14,22 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+version=$(grep -i player.product.version /etc/vmware/config | cut -d'"' -f2- | rev | cut -c 2- | rev)
+build=$(grep -i product.buildnumber /etc/vmware/config | cut -d'"' -f2- | rev | cut -c 2- | rev)
+IFS='.' read -r -a product <<< "$version"
+
+printf "VMware product version: %s.%s\n\n" "$version" "$build"
+#printf "Major:    ${product[0]}\n"
+#printf "Minor:    ${product[1]}\n"
+#printf "Revision: ${product[2]}\n"
+#printf "Build:    ${build}\n"
+
+# Check version is 14+
+if [[ ${product[0]} -lt 12 ]]; then
+   printf "VMware Workstation/Player version 12 or greater required!\n"
+   exit 1
+fi
+
 echo Creating backup folder...
 rm -rf ./backup 2>/dev/null
 mkdir -p ./backup
