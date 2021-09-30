@@ -26,10 +26,6 @@ elif [ -d /usr/lib/vmware/lib/libvmwarebase.so/ ]; then
     cp -pv /usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so ./backup/
 fi
 
-echo Creating tools folder...
-rm -rf ./tools 2>/dev/null
-mkdir -p ./tools
-
 echo Patching...
 ./unlocker.py
 
