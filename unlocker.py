@@ -1,27 +1,5 @@
 #!/usr/bin/env python3
 """
-The MIT License (MIT)
-
-Copyright (c) 2014-2021 Dave Parsons & Sam Bingner
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the 'Software'), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
 vSMC Header Structure
 Offset  Length  Struct Type Description
 ----------------------------------------
@@ -92,6 +70,7 @@ E_CLASS64 = 2
 E_SHT_RELA = 4
 
 
+# noinspection PyUnusedLocal
 def patchelf(f, oldoffset, newoffset):
     f.seek(0)
     magic = f.read(4)
@@ -115,14 +94,14 @@ def patchelf(f, oldoffset, newoffset):
     for i in range(0, e_shnum):
         f.seek(e_shoff + i * e_shentsize)
         e_sh = struct.unpack('=LLQQQQLLQQ', f.read(e_shentsize))
-        # e_sh_name = e_sh[0]
+        e_sh_name = e_sh[0]
         e_sh_type = e_sh[1]
         e_sh_offset = e_sh[4]
         e_sh_size = e_sh[5]
         e_sh_entsize = e_sh[9]
         if e_sh_type == E_SHT_RELA:
             e_sh_nument = int(e_sh_size / e_sh_entsize)
-            # print 'RELA at 0x{:x} with {:d} entries'.format(e_sh_offset, e_sh_nument)
+            print('RELA at 0x{:x} with {:d} entries'.format(e_sh_offset, e_sh_nument))
             for j in range(0, e_sh_nument):
                 f.seek(e_sh_offset + e_sh_entsize * j)
                 rela = struct.unpack('=QQq', f.read(e_sh_entsize))
@@ -139,7 +118,7 @@ def patchelf(f, oldoffset, newoffset):
 def patchkeys(f, key):
     # Setup struct pack string
     key_pack = '=4sB4sB6xQ'
-    # smc_old_memptr = 0
+    smc_old_memptr = 0
     smc_new_memptr = 0
 
     # Do Until OSK1 read
@@ -165,7 +144,7 @@ def patchkeys(f, key):
             # Write new data routine pointer from +LKS
             print('OSK0 Key Before:')
             printkey(i, offset, smc_key, smc_data)
-            # smc_old_memptr = smc_key[4]
+            smc_old_memptr = smc_key[4]
             f.seek(offset)
             f.write(struct.pack(key_pack, smc_key[0], smc_key[1], smc_key[2], smc_key[3], smc_new_memptr))
             f.flush()
@@ -208,6 +187,21 @@ def patchkeys(f, key):
             # Finished so get out of loop
             break
 
+        # elif smc_key[0] == b'WPPK':
+        #     # Set the old SMC password as an addtional marker that vmx has been patched
+        #     # This has no functional value except for checking status
+        #     print('KPPW Key Before:')
+        #     printkey(i, offset, smc_key, smc_data)
+        #     f.seek(offset + 24)
+        #     f.write('SpecialisRevelio'.encode('UTF-8'))
+        #
+        #     # Re-read and print key
+        #     f.seek(offset)
+        #     smc_key = struct.unpack(key_pack, f.read(24))
+        #     smc_data = f.read(smc_key[1])
+        #     print('KPPW Key After:')
+        #     printkey(i, offset, smc_key, smc_data)
+
         else:
             pass
 
@@ -245,7 +239,7 @@ def patchsmc(name, sharedobj):
         smc_key0 = vmx.find(key_key)
         smc_key1 = vmx.rfind(key_key)
 
-        # Find '$Adr' key only V1 table
+        # Find '$Adr' key table
         smc_adr = vmx.find(adr_key)
 
         # Print vSMC0 tables and keys
