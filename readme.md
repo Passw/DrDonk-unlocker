@@ -80,7 +80,7 @@ These URLs will link to the latest versions of VMware's hosted products:
 * VMware Player for Windows https://www.vmware.com/go/getplayer-win
 * VMware Player for Linux https://www.vmware.com/go/getplayer-linux
 
-## 5. VMware Tools
+## 6. VMware Tools
 VMware Tools fror Mac OS X and macOS can be downloaded from these URLs:
 
 * Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
@@ -90,7 +90,7 @@ VMware Tools fror Mac OS X and macOS can be downloaded from these URLs:
 You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
 
 
-## 6. EFI Patcher
+## 7. EFI Patcher
 
 VMware will not allow the client (non-server) Leopard and Snow Leopard verions of Mac OS X to be installed due to 
 Apple's EULA. This is implememted in the virtual EFI firmware and this can be patched to override the check if you 
@@ -98,7 +98,7 @@ want to use the client versions.
 
 Please see the efi-readme file for details on patching the ROM files used by VMware products.
 
-## 7. Thanks
+## 8. Thanks
 Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knife
 (MSoK) for all the testing and support.
 
