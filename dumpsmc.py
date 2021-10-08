@@ -19,8 +19,30 @@ Offset  Length  Struct Type Description
 0x18/24 0x30/48 48B    byte Data
 """
 
+import codecs
+import mmap
+import os.path
 import struct
 import sys
+
+# Constants for header and key access
+HDR_PACK = '=QII'
+HDR_LENGTH = 16
+KEY_PACK = '=4sB4sB6xQ'
+KEY_LENGTH = 24
+DATA_LENGTH = 48
+ROW_LENGTH = KEY_LENGTH + DATA_LENGTH
+
+# Setup hex string for vSMC headers
+# These are the private and public key counts
+SMC_HEADER_V0 = b'\xF2\x00\x00\x00\xF0\x00\x00\x00'
+SMC_HEADER_V1 = b'\xB4\x01\x00\x00\xB0\x01\x00\x00'
+
+# Keys we use
+KEY_KEY = b'YEK#'
+LKS_KEY = b'SKL+'
+OSK0_KEY = b'0KSO'
+OSK1_KEY = b'1KSO'
 
 if sys.version_info < (3, 8):
     sys.stderr.write('You need Python 3.8 or later\n')
@@ -31,102 +53,103 @@ def bytetohex(data):
     return ''.join('{:02X} '.format(c) for c in data)
 
 
-def printkey(i, offset, smc_key, smc_data):
-    print(str(i + 1).zfill(3)
-          + ' ' + hex(offset)
-          + ' ' + smc_key[0][::-1].decode('UTF-8')
-          + ' ' + str(smc_key[1]).zfill(2)
-          + ' ' + smc_key[2][::-1].replace(b'\x00', b' ').decode('UTF-8')
-          + ' ' + '{0:#0{1}x}'.format(smc_key[3], 4)
-          + ' ' + hex(smc_key[4])
-          + ' ' + bytetohex(smc_data))
+def printhdr(offset, hdr):
+    print(f'File Offset : 0x{offset:08x}')
+    print(f'Keys Offset : 0x{hdr[0]:08x}')
+    print(f'Private Keys: 0x{hdr[1]:04x}/{hdr[1]}')
+    print(f'Public Keys : 0x{hdr[2]:04x}/{hdr[2]}')
+    return
 
 
-def dumpkeys(f, key):
-    # Setup struct pack string
-    key_pack = '=4sB4sB6xQ'
+def printkey(offset, smc_key, smc_data):
+    # Format smc_type as cannot use \ in f-strings
+    smc_type = smc_key[2][::-1].replace(b'\x00', b' ').decode('UTF-8')
+    print(f'0x{offset:08x} '
+          f'{smc_key[0][::-1].decode("UTF-8")} '
+          f'{smc_key[1]:03d} '
+          f'{smc_type} '
+          f'0x{smc_key[3]:02x} '
+          f'0x{smc_key[4]:08x} '
+          f'{bytetohex(smc_data)}')
+    return
 
-    # Do Until OSK1 read
-    i = 0
-    while True:
+
+def gethdr(vmx, offset):
+    # Read header into struct
+    vmx.seek(offset)
+    hdr = struct.unpack(HDR_PACK, vmx.read(HDR_LENGTH))
+    vmx.seek(offset)
+    return hdr
+
+
+def getkey(vmx, offset):
+    # Read key into struct
+    vmx.seek(offset)
+    smc_key = struct.unpack(KEY_PACK, vmx.read(KEY_LENGTH))
+    vmx.seek(offset)
+    return smc_key
+
+
+def getdata(vmx, offset, smc_key):
+    # Read data for key
+    vmx.seek(offset + KEY_LENGTH)
+    smc_data = vmx.read(smc_key[1])
+    vmx.seek(offset)
+    return smc_data
+
+
+def dumpkeys(vmx, offset, count):
+
+    print('Offset     Name Len Type Flag FuncPtr    Data')
+    print('-------    ---- --- ---- ---- -------    ----')
+
+    for i in range(count):
 
         # Read key into struct str and data byte str
-        offset = key + (i * 72)
-        f.seek(offset)
-        smc_key = struct.unpack(key_pack, f.read(24))
-        smc_data = f.read(smc_key[1])
+        smc_key = getkey(vmx, offset)
+        smc_data = getdata(vmx, offset, smc_key)
 
         # Dump entry
-        printkey(i, offset, smc_key, smc_data)
+        printkey(offset, smc_key, smc_data)
+        offset = offset + ROW_LENGTH
 
-        # Exit when OSK1 has been read
-        if smc_key[0] == b'1KSO':
-            break
-        else:
-            i += 1
+    return
 
 
 def dumpsmc(name):
 
-    with open(name, 'rb') as f:
+    with open(name, 'r+b') as f:
 
-        # Read file into variable
-        vmx = f.read()
+        # Memory map file
+        vmx = mmap.mmap(f.fileno(), 0)
 
         print('File: ' + name)
 
-        # Setup hex string for vSMC headers
-        # These are the private and public key counts
-        smc_header_v0 = b'\xF2\x00\x00\x00\xF0\x00\x00\x00'
-        smc_header_v1 = b'\xB4\x01\x00\x00\xB0\x01\x00\x00'
-
-        # Setup hex string for #KEY key
-        key_key = b'\x59\x45\x4B\x23\x04\x32\x33\x69\x75'
-
-        # Setup hex string for $Adr key
-        adr_key = b'\x72\x64\x41\x24\x04\x32\x33\x69\x75'
-
         # Find the vSMC headers
-        smc_header_v0_offset = vmx.find(smc_header_v0) - 8
-        smc_header_v1_offset = vmx.find(smc_header_v1) - 8
+        smc0_header = vmx.find(SMC_HEADER_V0) - 8
+        smc1_header = vmx.find(SMC_HEADER_V1) - 8
 
         # Find '#KEY' keys
-        smc_key0 = vmx.find(key_key)
-        smc_key1 = vmx.rfind(key_key)
+        smc0_key = vmx.find(KEY_KEY, smc0_header)
+        smc1_key = vmx.find(KEY_KEY, smc1_header)
 
-        # Find '$Adr' key only V1 table
-        smc_adr = vmx.find(adr_key)
+        # Patch first vSMC table
+        print('\nappleSMCTableV0 (smc.version = "0")')
+        hdr = gethdr(vmx, smc0_header)
+        printhdr(smc0_header, hdr)
+        dumpkeys(vmx, smc0_key, hdr[1])
 
-        # Print vSMC0 tables and keys
-        print('appleSMCTableV0 (smc.version = "0")')
-        print('appleSMCTableV0 Address      : ' + hex(smc_header_v0_offset))
-        print('appleSMCTableV0 Private Key #: 0xF2/242')
-        print('appleSMCTableV0 Public Key  #: 0xF0/240')
-
-        if (smc_adr - smc_key0) != 72:
-            print('appleSMCTableV0 Table        : ' + hex(smc_key0))
-            dumpkeys(f, smc_key0)
-        elif (smc_adr - smc_key1) != 72:
-            print('appleSMCTableV0 Table        : ' + hex(smc_key1))
-            dumpkeys(f, smc_key1)
-
-        print()
-
-        # Print vSMC1 tables and keys
-        print('appleSMCTableV1 (smc.version = "1")')
-        print('appleSMCTableV1 Address      : ' + hex(smc_header_v1_offset))
-        print('appleSMCTableV1 Private Key #: 0x01B4/436')
-        print('appleSMCTableV1 Public Key  #: 0x01B0/432')
-
-        if (smc_adr - smc_key0) == 72:
-            print('appleSMCTableV1 Table        : ' + hex(smc_key0))
-            dumpkeys(f, smc_key0)
-        elif (smc_adr - smc_key1) == 72:
-            print('appleSMCTableV1 Table        : ' + hex(smc_key1))
-            dumpkeys(f, smc_key1)
+        # Patch second vSMC table
+        print('\nappleSMCTableV1 (smc.version = "1")')
+        hdr = gethdr(vmx, smc1_header)
+        printhdr(smc1_header, hdr)
+        dumpkeys(vmx, smc1_key, hdr[1])
 
         # Tidy up
+        vmx.close()
         f.close()
+
+    return
 
 
 def main():
@@ -139,10 +162,11 @@ def main():
         print('Please pass file name!')
         return
 
-    try:
+    if os.path.exists(vmx_path):
         dumpsmc(vmx_path)
-    except IOError:
+    else:
         print('Cannot find file ' + vmx_path)
+    return
 
 
 if __name__ == '__main__':
