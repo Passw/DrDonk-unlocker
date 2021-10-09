@@ -20,9 +20,10 @@ ASSETS_ZIP  = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/a
 
 
 def main():
-    # Check minimal Python version is 3.8
-    if sys.version_info < (3, 8):
-        sys.stderr.write('You need Python 3.8 or later\n')
+    print('Downloading VMware Tools for macOS')
+    # Check minimal Python version is 3.6
+    if sys.version_info < (3, 6):
+        sys.stderr.write('You need Python 3.6 or later\n')
         sys.exit(1)
 
     # Make a tools folder if not present

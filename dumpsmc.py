@@ -43,8 +43,8 @@ LKS_KEY = b'SKL+'
 OSK0_KEY = b'0KSO'
 OSK1_KEY = b'1KSO'
 
-if sys.version_info < (3, 8):
-    sys.stderr.write('You need Python 3.8 or later\n')
+if sys.version_info < (3, 6):
+    sys.stderr.write('You need Python 3.6 or later\n')
     sys.exit(1)
 
 
