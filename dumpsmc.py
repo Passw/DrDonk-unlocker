@@ -19,7 +19,6 @@ Offset  Length  Struct Type Description
 0x18/24 0x30/48 48B    byte Data
 """
 
-import codecs
 import mmap
 import os.path
 import struct

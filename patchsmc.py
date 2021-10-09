@@ -31,6 +31,7 @@ AppleSMCHandleOSK
 
 import codecs
 import mmap
+import os
 import struct
 import sys
 
@@ -85,18 +86,6 @@ def printkey(offset, smc_key, smc_data):
           f'0x{smc_key[4]:08x} '
           f'{bytetohex(smc_data)}')
     return
-
-
-def set_bit(value, bit):
-    return value | (1 << bit)
-
-
-def clear_bit(value, bit):
-    return value & ~(1 << bit)
-
-
-def test_bit(value, bit):
-    return value & bit
 
 
 def gethdr(vmx, offset):
@@ -268,15 +257,15 @@ def main():
     print('--------')
 
     if len(sys.argv) >= 2:
-        vmx_path = sys.argv[1]
+        filename = sys.argv[1]
     else:
         print('Please pass file name!')
         return
 
-    try:
-        patchsmc(vmx_path)
-    except IOError:
-        print('Cannot find file ' + vmx_path)
+    if os.path.isfile(filename):
+        patchsmc(filename)
+    else:
+        print('Cannot find file ' + filename)
     return
 
 
