@@ -5,6 +5,7 @@ samples/
 tests/
 build/
 dist/
+private/
 *.spec
 *.pyc
 *.rom
