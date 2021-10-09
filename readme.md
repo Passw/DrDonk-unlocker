@@ -57,7 +57,7 @@ Explorer right click on the command file and select "Run as administrator".
 
 - win-install.cmd   - patches VMware
 - win-uninstall.cmd - restores VMware
-- win-update-tools.cmd - retrieves latest macOS guest tools
+- win-gettools.cmd  - retrieves latest macOS guest tools
 
 ## 4. Linux
 On Linux you will need to be either root or use sudo to run the scripts.
@@ -67,7 +67,7 @@ by running chmod +x against the 2 files.
 
 - lnx-install.sh   - patches VMware
 - lnx-uninstall.sh - restores VMware
-- lnx-update-tools.sh - retrieves latest macOS guest tools
+- lnx-gettools.sh  - retrieves latest macOS guest tools
    
 
 ## 5. VMware Downloads
@@ -81,10 +81,13 @@ These URLs will link to the latest versions of VMware's hosted products:
 * VMware Player for Linux https://www.vmware.com/go/getplayer-linux
 
 ## 6. VMware Tools
-VMware Tools fror Mac OS X and macOS can be downloaded from these URLs:
+The unlocker provides a script to get the VMware tools. There can be newer releases available which can be downloaded
+from these URLs if the script has not yet been updated:
 
 * Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
 * macOS 10.11+ https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x
+
+_These URLs require a VMware login to download._
 
 **Note:** VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
 You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
