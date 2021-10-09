@@ -11,10 +11,5 @@ if %errorlevel% neq 0 (
 )
 
 pushd %~dp0
-
-echo Getting VMware Tools...
 .\python-win-embed-amd64\python.exe gettools.py
-
 popd
-
-echo Finished!
