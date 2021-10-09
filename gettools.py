@@ -50,6 +50,7 @@ def main():
         # Replace json and zip file if hash is OK
         if new_hash == new_data['sha256']:
             print(f'Successfully downloaded build {new_data["build"]}')
+            print(f'Unzip {LOCAL_ZIP} file to access the tools.')
             if os.path.exists(LOCAL_JSON):
                 os.remove(LOCAL_JSON)
             os.rename(TEMP_JSON, LOCAL_JSON)
