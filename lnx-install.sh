@@ -45,5 +45,9 @@ fi
 echo Patching...
 ./unlocker.py
 
+echo Getting VMware Tools...
+./gettools.py
+cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
+
 echo Finished!
 

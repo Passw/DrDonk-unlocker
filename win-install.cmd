@@ -60,6 +60,12 @@ echo Patching...
 .\python-win-embed-amd64\python.exe unlocker.py
 
 echo.
+
+echo Getting VMware Tools...
+.\python-win-embed-amd64\python.exe gettools.py
+xcopy /F /Y .\tools\darwin*.* "%InstallPath%"
+echo.
+
 echo Starting VMware services...
 net start VMUSBArbService > NUL 2>&1
 net start VMAuthdService > NUL 2>&1

@@ -3,9 +3,9 @@
 import hashlib
 import json
 import os
+import shutil
 import sys
 from urllib.request import urlretrieve
-
 
 # Build some constants
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -14,9 +14,9 @@ LOCAL_ZIP = os.path.join(TOOL_PATH, 'assets.zip')
 LOCAL_JSON = os.path.join(TOOL_PATH, 'assets.json')
 TEMP_JSON = os.path.join(TOOL_PATH, 'temp.json')
 TEMP_ZIP = os.path.join(TOOL_PATH, 'temp.zip')
-
 ASSETS_JSON  = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.json'
 ASSETS_ZIP  = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.zip'
+UNZIPPED_PATH = os.path.join(TOOL_PATH, 'vmtools')
 
 
 def main():
@@ -51,15 +51,21 @@ def main():
         # Replace json and zip file if hash is OK
         if new_hash == new_data['sha256']:
             print(f'Successfully downloaded build {new_data["build"]}')
-            print(f'Unzip {LOCAL_ZIP} file to access the tools.')
+            print(f'Unzipping {LOCAL_ZIP} file to {UNZIPPED_PATH}.')
             if os.path.exists(LOCAL_JSON):
                 os.remove(LOCAL_JSON)
             os.rename(TEMP_JSON, LOCAL_JSON)
             if os.path.exists(LOCAL_ZIP):
                 os.remove(LOCAL_ZIP)
             os.rename(TEMP_ZIP, LOCAL_ZIP)
+
+            # Extract the iso files from downloaded zip file
+            if os.path.exists(UNZIPPED_PATH):
+                os.rmdir(UNZIPPED_PATH)
+            shutil.unpack_archive(LOCAL_ZIP, TOOL_PATH)
+
         else:
-            print(f'Download of build {new_data["build"]} failed checksoums do not match:')
+            print(f'Download of build {new_data["build"]} failed checksums do not match:')
             print(f'Expected: {new_data["sha256"]}')
             print(f'Actual:   {new_hash}')
             os.remove(TEMP_JSON)
