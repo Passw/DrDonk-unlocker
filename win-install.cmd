@@ -63,7 +63,7 @@ echo.
 
 echo Getting VMware Tools...
 .\python-win-embed-amd64\python.exe gettools.py
-xcopy /F /Y .\assets\vmtools\darwin*.* "%InstallPath%"
+xcopy /F /Y .\tools\vmtools\darwin*.* "%InstallPath%"
 echo.
 
 echo Starting VMware services...
