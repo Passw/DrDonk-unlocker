@@ -47,7 +47,7 @@ echo Patching...
 
 echo Getting VMware Tools...
 ./gettools.py
-cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
+cp ./assets/vmtools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 
