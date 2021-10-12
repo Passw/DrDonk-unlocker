@@ -29,8 +29,8 @@ for /F "tokens=1,2,3,4 delims=." %%a in ("%ProductVersion%") do (
 
 :: echo Major: %Major%, Minor: %Minor%, Revision: %Revision%, Build: %Build%
 
-:: Check version is 12+
-if %Major% lss 12 (
+:: Check version is 15+
+if %Major% lss 15 (
     echo VMware Workstation/Player version 12 or greater required!
     exit /b
 )

@@ -1,4 +1,4 @@
-# macOS Unlocker V3.0 for VMware Workstation
+# macOS Unlocker Vx.0 for VMware Workstation
 
 
 ---
@@ -11,9 +11,9 @@ running an update on the VMware software. Failure to do this could render VMware
 in future versions of VMware Workstation.
 
 ## 1. Introduction
-Unlocker 3 is designed for VMware Workstation 12-16 and Player 12-16.
+Unlocker x is designed for VMware Workstation 12-16 and Player 12-16.
 
-Version 3 has been tested against:
+Version x has been tested against:
 
 * Workstation 12/14/15/16 on Windows and Linux
 * Workstation Player 12/14/15/16 on Windows and Linux
@@ -91,19 +91,25 @@ Earlier versions of VMware Workstation and Player do not recognise the darwin.is
 You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
 
 ## 7. EFI Patcher
+The macOS EFI Unlocker removes the check for server versions of Mac OS X verisons:
 
-VMware will not allow the client (non-server) Leopard and Snow Leopard verions of Mac OS X to be installed due to 
-Apple's EULA. This is implememted in the virtual EFI firmware and this can be patched to override the check if you 
-want to use the client versions.
+* 10.5 Leopard
+* 10.6 Snow Leopard
 
-Please see the efi-readme file for details on patching the ROM files used by VMware products.
+allowing the non-server versions of Mac OS X to be run with VMware products. Later versions of Mac OS X and macOS
+do not need the modified firmware due to Apple removing the restrictions imposed on 10.5 and 10.6.
+
+The checks for the server versions are done in VMware's virtual EFI firmware which looks for a file called
+ServerVersion.plist in the installation media and the installed OS. The patch modifies the firmware to check
+for a file present on all versions of Mac OS X/macOS called SystemVersion.plist.
+
+The patch uses a tool called UEFIPatch to make the modifications.
 
 ## 8. Alternative patcher
 I would recommend using auto-unlocker instead of this unlocker as it is a better solution if Python is an issue and
 actively supported by Paolo here on GitHub.
 
 [https://github.com/paolo-projects/auto-unlocker](https://github.com/paolo-projects/auto-unlocker)
-
 
 ## 9 Thanks
 Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knife
@@ -113,6 +119,9 @@ Thanks also to Sam B for finding the solution for ESXi 6 and helping me with
 debugging expertise. Sam also wrote the code for patching ESXi ELF files and
 modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 
+Thanks goes to the UEFITools project for the patching tool used to modify the firmware.
+
+https://github.com/LongSoft/UEFITool
 
 ## History
 27/09/18 3.0.0
@@ -137,5 +146,8 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 - Added URLs to get Mac OS X legacy and macOS current tools
 - Added URLs to get latest VMware hosted products
 - Made minimum Python version 3.6 from 3.8 for Linux
+
+dd/mm/yy xx.yy.zz
+- dummy
 
 (c) 2011-2021 Dave Parsons
