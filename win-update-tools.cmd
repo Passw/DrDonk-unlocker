@@ -36,3 +36,4 @@ pushd %~dp0
 .\python-win-embed-amd64\python.exe gettools.py
 xcopy /F /Y .\tools\vmtools\darwin*.* "%InstallPath%"
 popd
+pause

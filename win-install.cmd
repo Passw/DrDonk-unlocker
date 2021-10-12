@@ -75,3 +75,4 @@ net start vmware-view-usbd > NUL 2>&1
 popd
 echo.
 echo Finished!
+pause

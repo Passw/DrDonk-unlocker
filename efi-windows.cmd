@@ -52,3 +52,4 @@ del /f EFI64.ROM
 popd
 echo.
 echo Finished
+pause
