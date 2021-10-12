@@ -1,20 +1,13 @@
 # macOS Unlocker V3.0 for VMware Workstation
 
----
-**RECOMMENDATION**
----
-I would recommend using auto-unlocker instead of this unlocker as it is a better solution and actively supported 
-by Paolo here on GitHub.
-
-<https://github.com/paolo-projects/auto-unlocker>
 
 ---
 **IMPORTANT**
 ---
-Always uninstall the previous version of the Unlocker before using a new version or 
-running an update of the software. Failure to do this could render VMware unusable. 
-
-You use this software at your own risk and there are no guarantees this will work 
+1. Use a release from the Releases section of this GitHub repository. [https://github.com/DrDonk/unlocker/releases](https://github.com/DrDonk/unlocker/releases)
+2. Always uninstall the previous version of the Unlocker before using a new version or 
+running an update on the VMware software. Failure to do this could render VMware unusable. 
+3. You use this software at your own risk and there are no guarantees this will work 
 in future versions of VMware Workstation.
 
 ## 1. Introduction
@@ -39,13 +32,15 @@ being patched:
 
 * Fix vmware-vmx and derivatives to allow macOS to boot
 * Fix vmwarebase.dll or .so to allow Apple to be selected during VM creation
+* Get a copy of the macOS VMware Tools for the guest
+* Fix the UEFI ROM files to allow Leopard and Snow Leopard client versions to be installed
 
 In all cases make sure VMware is not running, and any background guests have been shutdown.
 
 The code is written in Python with some Bash and Command files.
 
 ## 2. Prerequisites
-The code requires Python 3.8 to work. Most Linux distros ship with a compatible
+The code requires Python 3.6 to work. Most Linux distros ship with a compatible
 Python interpreter and should work without requiring any additional software.
 
 Windows Unlocker has a packaged minimal version of the Python and so does not require Python to be installed.
@@ -74,24 +69,26 @@ by running chmod +x against the 2 files.
 
 These URLs will link to the latest versions of VMware's hosted products:
 
-* VMware Fusion https://vmware.com/go/getfusion
-* VMware Workstation for Windows https://www.vmware.com/go/getworkstation-win
-* VMware Workstation for Linux https://www.vmware.com/go/getworkstation-linux
-* VMware Player for Windows https://www.vmware.com/go/getplayer-win
-* VMware Player for Linux https://www.vmware.com/go/getplayer-linux
+* VMware Fusion [https://vmware.com/go/getfusion](https://github.com/DrDonk/unlocker/releases)
+* VMware Workstation for Windows [https://www.vmware.com/go/getworkstation-win](https://github.com/DrDonk/unlocker/releases)
+* VMware Workstation for Linux [https://www.vmware.com/go/getworkstation-linux](https://github.com/DrDonk/unlocker/releases)
+* VMware Player for Windows [https://www.vmware.com/go/getplayer-win](https://github.com/DrDonk/unlocker/releases)
+* VMware Player for Linux [https://www.vmware.com/go/getplayer-linux](https://github.com/DrDonk/unlocker/releases)
 
 ## 6. VMware Tools
 The unlocker provides a script to get the VMware tools. There can be newer releases available which can be downloaded
 from these URLs if the script has not yet been updated:
 
-* Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
-* macOS 10.11+ https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x
+* Mac OS X 10.5 - 10.10 [https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491](https://github.com/DrDonk/unlocker/releases)
+* macOS 10.11+ [https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x](https://github.com/DrDonk/unlocker/releases)
 
 _These URLs require a VMware login to download._
 
-**Note:** VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
-You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
+Version 15 and 16 of Workstation do recocnise the darwin.iso files and the tools can be installed in the usual way by 
+using the "Install VMware Tools" menu item .
 
+Earlier versions of VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
+You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
 
 ## 7. EFI Patcher
 
@@ -101,7 +98,14 @@ want to use the client versions.
 
 Please see the efi-readme file for details on patching the ROM files used by VMware products.
 
-## 8. Thanks
+## 8. Alternative patcher
+I would recommend using auto-unlocker instead of this unlocker as it is a better solution if Python is an issue and
+actively supported by Paolo here on GitHub.
+
+[https://github.com/paolo-projects/auto-unlocker](https://github.com/paolo-projects/auto-unlocker)
+
+
+## 9 Thanks
 Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knife
 (MSoK) for all the testing and support.
 
@@ -129,8 +133,9 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 - Fixed embedded Python error on Windows
 
 30/09/21 3.0.5
-- Removed gettools.py as can directly download from VMware web site
+- Updated gettools.py to directly download tools from new repo
 - Added URLs to get Mac OS X legacy and macOS current tools
 - Added URLs to get latest VMware hosted products
+- Made minimum Python version 3.6 from 3.8 for Linux
 
 (c) 2011-2021 Dave Parsons
