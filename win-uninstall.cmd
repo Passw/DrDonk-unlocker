@@ -7,8 +7,9 @@ echo (c) Dave Parsons 2011-21
 
 net session >NUL 2>&1
 if %errorlevel% neq 0 (
-    echo Administrator privileges required! 
-    exit
+    echo Administrator privileges required!
+    pause
+    exit /b
 )
 
 echo.

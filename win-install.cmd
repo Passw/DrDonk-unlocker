@@ -11,6 +11,7 @@ chcp 850
 net session >NUL 2>&1
 if %errorlevel% neq 0 (
     echo Administrator privileges required!
+    pause
     exit /b
 )
 
@@ -32,6 +33,7 @@ for /F "tokens=1,2,3,4 delims=." %%a in ("%ProductVersion%") do (
 :: Check version is 12+
 if %Major% lss 12 (
     echo VMware Workstation/Player version 12 or greater required!
+    pause
     exit /b
 )
 
