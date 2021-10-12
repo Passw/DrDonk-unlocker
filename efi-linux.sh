@@ -24,6 +24,9 @@ if [[ ${product[0]} -lt 12 ]]; then
    exit 1
 fi
 
+# CD to script folder
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 if [[ ${product[0]} -eq 12 ]]; then
     printf "Extracting firmware...\n"
     /usr/lib/bin/vmware-vmx -e EFI32 > EFI32.ROM
@@ -41,5 +44,8 @@ rm -fv EFI32.ROM
 printf "\nPatching 64-bit ROM...\n"
 ./uefipatch/UEFIPatch.linux EFI64.ROM ./uefipatch/efi-patches.txt -o EFI64-MACOS.ROM
 rm -fv EFI64.ROM
+
+# CD to original folder
+cd -
 
 printf "\nFinished!\n"

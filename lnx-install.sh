@@ -30,6 +30,9 @@ if [[ ${product[0]} -lt 12 ]]; then
    exit 1
 fi
 
+# CD to script folder
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 echo Creating backup folder...
 rm -rf ./backup 2>/dev/null
 mkdir -p ./backup
@@ -48,6 +51,9 @@ echo Patching...
 echo Getting VMware Tools...
 ./gettools.py
 cp ./tools/vmtools/darwin*.* /usr/lib/vmware/isoimages/
+
+# CD to original folder
+cd -
 
 echo Finished!
 

@@ -14,8 +14,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# CD to script folder
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 echo Getting VMware Tools...
 ./gettools.py
 cp ./tools/vmtools/darwin*.* /usr/lib/vmware/isoimages/
+
+# CD to original folder
+cd -
 
 echo Finished!

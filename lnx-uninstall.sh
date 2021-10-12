@@ -14,6 +14,9 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# CD to script folder
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 echo Restoring files...
 cp -pv ./backup/vmware-vmx  /usr/lib/vmware/bin/
 cp -pv ./backup/vmware-vmx-debug /usr/lib/vmware/bin/
@@ -26,5 +29,8 @@ fi
 
 echo Removing backup files...
 rm -rfv ./backup
+
+# CD to original folder
+cd -
 
 echo Finished!
