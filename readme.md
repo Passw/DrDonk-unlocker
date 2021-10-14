@@ -139,6 +139,6 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 - Made minimum Python version 3.6 from 3.8 for Linux
 
 14/10/21 3.0.6
--Ensure errors are displayed on Windows if CMD file is run from Explorer
+- Ensure errors are displayed on Windows if CMD file is run from Explorer
 
 (c) 2011-2021 Dave Parsons
