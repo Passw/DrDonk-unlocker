@@ -52,10 +52,10 @@ echo Backing up files...
 rd /s /q .\backup > NUL 2>&1
 mkdir .\backup
 mkdir .\backup\x64
-xcopy /F /Y "%InstallPath%x64\vmware-vmx.exe" .\backup\x64
-xcopy /F /Y "%InstallPath%x64\vmware-vmx-debug.exe" .\backup\x64
-xcopy /F /Y "%InstallPath%x64\vmware-vmx-stats.exe" .\backup\x64
-xcopy /F /Y "%InstallPath%vmwarebase.dll" .\backup\
+xcopy /F /Y /X "%InstallPath%x64\vmware-vmx.exe" .\backup\x64
+xcopy /F /Y /X "%InstallPath%x64\vmware-vmx-debug.exe" .\backup\x64
+xcopy /F /Y /X "%InstallPath%x64\vmware-vmx-stats.exe" .\backup\x64
+xcopy /F /Y /X "%InstallPath%vmwarebase.dll" .\backup\
 
 echo.
 echo Patching...
@@ -65,7 +65,7 @@ echo.
 
 echo Getting VMware Tools...
 .\python-win-embed-amd64\python.exe gettools.py
-xcopy /F /Y .\tools\vmtools\darwin*.* "%InstallPath%"
+xcopy /F /Y /X .\tools\vmtools\darwin*.* "%InstallPath%"
 echo.
 
 echo Starting VMware services...

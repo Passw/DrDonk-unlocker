@@ -31,8 +31,8 @@ taskkill /F /IM vmware-tray.exe > NUL 2>&1
 
 echo.
 echo Restoring files...
-xcopy /F /Y .\backup\x64\*.* "%InstallPath%x64\"
-xcopy /F /Y .\backup\*.* "%InstallPath%"
+xcopy /F /Y /X .\backup\x64\*.* "%InstallPath%x64\"
+xcopy /F /Y /X .\backup\*.* "%InstallPath%"
 
 echo.
 echo Starting VMware services...

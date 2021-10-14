@@ -36,8 +36,8 @@ if %Major% eq 12 (
     "%InstallPath%x64\vmware-vmx.exe -e EFi64 > EFI64.ROM"
 )
 else (
-    xcopy /F /Y "%InstallPath%x64\EFI32.ROM" .
-    xcopy /F /Y "%InstallPath%x64\EFI64.ROM" .
+    xcopy /F /Y /X "%InstallPath%x64\EFI32.ROM" .
+    xcopy /F /Y /X "%InstallPath%x64\EFI64.ROM" .
 )
 
 echo.

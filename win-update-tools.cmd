@@ -36,6 +36,6 @@ if %Major% lss 12 (
 
 pushd %~dp0
 .\python-win-embed-amd64\python.exe gettools.py
-xcopy /F /Y .\tools\vmtools\darwin*.* "%InstallPath%"
+xcopy /F /Y /X .\tools\vmtools\darwin*.* "%InstallPath%"
 popd
 pause
