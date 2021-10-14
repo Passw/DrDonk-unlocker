@@ -132,10 +132,13 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 01/06/21 3.0.4
 - Fixed embedded Python error on Windows
 
-30/09/21 3.0.5
+12/10/21 3.0.5
 - Updated gettools.py to directly download tools from new repo
 - Added URLs to get Mac OS X legacy and macOS current tools
 - Added URLs to get latest VMware hosted products
 - Made minimum Python version 3.6 from 3.8 for Linux
+
+14/10/21 3.0.6
+-Ensure errors are displayed on Windows if CMD file is run from Explorer
 
 (c) 2011-2021 Dave Parsons
