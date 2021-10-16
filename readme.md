@@ -4,7 +4,7 @@
 ---
 **IMPORTANT**
 ---
-1. Use a release from the Releases section of this GitHub repository. [https://github.com/DrDonk/unlocker/releases](https://github.com/DrDonk/unlocker/releases)
+1. Use a release from the Releases section of this GitHub repository. https://github.com/DrDonk/unlocker/releases
 2. Always uninstall the previous version of the Unlocker before using a new version or 
 running an update on the VMware software. Failure to do this could render VMware unusable. 
 3. You use this software at your own risk and there are no guarantees this will work 
@@ -69,18 +69,18 @@ by running chmod +x against the 2 files.
 
 These URLs will link to the latest versions of VMware's hosted products:
 
-* VMware Fusion [https://vmware.com/go/getfusion](https://github.com/DrDonk/unlocker/releases)
-* VMware Workstation for Windows [https://www.vmware.com/go/getworkstation-win](https://github.com/DrDonk/unlocker/releases)
-* VMware Workstation for Linux [https://www.vmware.com/go/getworkstation-linux](https://github.com/DrDonk/unlocker/releases)
-* VMware Player for Windows [https://www.vmware.com/go/getplayer-win](https://github.com/DrDonk/unlocker/releases)
-* VMware Player for Linux [https://www.vmware.com/go/getplayer-linux](https://github.com/DrDonk/unlocker/releases)
+* VMware Fusion https://vmware.com/go/getfusion
+* VMware Workstation for Windows https://www.vmware.com/go/getworkstation-win
+* VMware Workstation for Linux https://www.vmware.com/go/getworkstation-linux
+* VMware Player for Windows https://www.vmware.com/go/getplayer-win
+* VMware Player for Linux https://www.vmware.com/go/getplayer-linux
 
 ## 6. VMware Tools
 The unlocker provides a script to get the VMware tools. There can be newer releases available which can be downloaded
 from these URLs if the script has not yet been updated:
 
-* Mac OS X 10.5 - 10.10 [https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491](https://github.com/DrDonk/unlocker/releases)
-* macOS 10.11+ [https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x](https://github.com/DrDonk/unlocker/releases)
+* Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
+* macOS 10.11+ https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/11_x
 
 _These URLs require a VMware login to download._
 
@@ -102,7 +102,7 @@ Please see the efi-readme file for details on patching the ROM files used by VMw
 I would recommend using auto-unlocker instead of this unlocker as it is a better solution if Python is an issue and
 actively supported by Paolo here on GitHub.
 
-[https://github.com/paolo-projects/auto-unlocker](https://github.com/paolo-projects/auto-unlocker)
+https://github.com/paolo-projects/auto-unlocker
 
 
 ## 9 Thanks
