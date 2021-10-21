@@ -59,7 +59,7 @@ OSK0 = codecs.encode('bheuneqjbexolgurfrjbeqfthneqrqcy', 'rot_13').encode('UTF-8
 OSK1 = codecs.encode('rnfrqbagfgrny(p)NccyrPbzchgreVap', 'rot_13').encode('UTF-8')
 
 # Hogwarts
-KPPW = 'SpecialisRevelio'
+KPPW = 'SpecialisRevelio'.encode('UTF-8')
 
 # ELF Magic
 ELF_MAGIC = b'\x7fELF'
@@ -130,7 +130,7 @@ def getdata(vmx, offset, smc_key):
 def setdata(vmx, offset, smc_data):
     # Write data for key
     vmx.seek(offset + KEY_LENGTH)
-    vmx.write(smc_data, )
+    vmx.write(smc_data)
     vmx.flush()
     vmx.seek(offset)
     return
