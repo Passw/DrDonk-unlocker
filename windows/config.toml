@@ -1,0 +1,11 @@
+[services]
+VMwareHostd = true
+VMAuthdService = true
+VMUSBArbService = true
+
+[tasks]
+vmware-tray.exe = true
+vmware-kvm.exe = true
+vmplayer.exe = true
+vmrest.exe = true
+vmware.exe = true

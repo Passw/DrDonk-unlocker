@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# coding=utf-8
 
 # NOTE: This has been simplified for future port to Go
 
