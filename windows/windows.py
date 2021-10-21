@@ -153,6 +153,17 @@ def svc_stop(name):
 # --------------------------------------------------------------------------------------------------
 # ==== TASK FUNCTIONS  ==========================================================================
 # --------------------------------------------------------------------------------------------------
+def check_tasks(names):
+    output = subprocess.check_output(('TASKLIST', '/FO', 'CSV')).decode()
+    output = output.replace('"', '').split('\r\n')
+    keys = output[0].split(',')
+    proc_list = [i.split(',') for i in output[1:] if i]
+    proc_dict = dict((i[0], dict(zip(keys[1:], i[1:]))) for i in proc_list)
+    for name, values in sorted(proc_dict.items(), key=lambda x: x[0].lower()):
+        print(f'{name}: {values}')
+    return
+
+
 def task_start(name):
     return
 
