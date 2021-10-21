@@ -18,6 +18,8 @@ import subprocess
 import sys
 from winreg import *
 
+VERSION = '4.0.0'
+COPYRIGHT = '(c) David Parsons 2011-21'
 SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 # Windows service constants
@@ -169,9 +171,9 @@ def main():
         # Use sys.argv[1:] instead of sys.argv for pyinstaller etc.
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
-    print('Unlocker 3.0.5 for VMware Workstation/Player')
+    print(f'Unlocker {VERSION} for VMware Workstation/Player')
     print('============================================')
-    print('(c) David Parsons 2011-21')
+    print(f'{COPYRIGHT}')
 
     # Get the product verison, build and paths from registry
     reg = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
@@ -180,6 +182,7 @@ def main():
     productversion = QueryValueEx(key, 'ProductVersion')[0]
     installpath = QueryValueEx(key, 'InstallPath')[0]
     installpath64 = QueryValueEx(key, 'InstallPath64')[0]
+    print(f'Patching version {productversion}')
 
     # Create paths to all relevant files
     vmx = joinpath(installpath64, 'vmware-vmx.exe')
@@ -188,34 +191,42 @@ def main():
     vmwarebase = joinpath(installpath, 'vmwarebase.dll')
     vmware_tray = joinpath(installpath, 'vmware-tray.exe')
 
-    print(f'Patching version {productversion}')
-    backup(productversion, vmx, vmx_debug, vmx_stats, vmwarebase)
-    return
-    # Stop services
+    # Read the config file
     config = ConfigParser()
     config.read('./config.toml')
+
+    # Stop services
     for service in config['services']:
         flag = config['services'][service]
-        status = svc_status(service)
-        if status != SVC_ERROR and status == SVC_RUNNING:
-            svc_stop(service)
+        if flag:
+            status = svc_status(service)
+            if status != SVC_ERROR and status == SVC_RUNNING:
+                svc_stop(service)
+
+    # Stop tasks
+    for service in config['services']:
+        flag = config['services'][service]
+        if flag:
+            status = svc_status(service)
+            if status != SVC_ERROR and status == SVC_RUNNING:
+                svc_stop(service)
 
     # # Patch the vmx executables skipping stats version for Player
-    # patchsmc(vmx, vmx_so)
-    # patchsmc(vmx_debug, vmx_so)
+    # patchsmc(vmx, False)
+    # patchsmc(vmx_debug, False)
     # if os.path.isfile(vmx_stats):
-    #     patchsmc(vmx_stats, vmx_so)
+    #     patchsmc(vmx_stats, False)
     #
     # # Patch vmwarebase for Workstation and Player
-    # vmx_so = False
     # patchbase(vmwarebase)
 
     # Start services
     for service in config['services']:
         flag = config['services'][service]
-        status = svc_status(service)
-        if status != SVC_ERROR and status == SVC_STOPPED:
-            svc_start(service)
+        if flag:
+            status = svc_status(service)
+            if status != SVC_ERROR and status == SVC_STOPPED:
+                svc_start(service)
     return
 
 
