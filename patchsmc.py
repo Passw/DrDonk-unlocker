@@ -4,6 +4,26 @@
 # NOTE: This has been simplified for future port to Go
 
 """
+The MIT License (MIT)
+Copyright (c) 2014-2021 Dave Parsons & Sam Bingner
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the 'Software'), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
+
+"""
 vSMC Header Structure
 Offset  Length  Struct Type Description
 ----------------------------------------
@@ -64,8 +84,8 @@ KPPW = 'SpecialisRevelio'.encode('UTF-8')
 # ELF Magic
 ELF_MAGIC = b'\x7fELF'
 
-if sys.version_info < (3, 8):
-    sys.stderr.write('You need Python 3.8 or later\n')
+if sys.version_info < (3, 6):
+    sys.stderr.write('You need Python 3.6 or later\n')
     sys.exit(1)
 
 
@@ -196,8 +216,8 @@ def patchsmc(name):
         smc1_header = vmx.find(SMC_HEADER_V1) - 8
 
         # Find '#KEY' keys
-        smc0_key = vmx.find(KEY_KEY, smc0_header)
-        smc1_key = vmx.find(KEY_KEY, smc1_header)
+        smc0_key = vmx.find(KEY_KEY)
+        smc1_key = vmx.rfind(KEY_KEY)
 
         # Find '+LKS' key
         smc0_lks = vmx.find(LKS_KEY, smc0_key)
@@ -286,7 +306,7 @@ def patchsmc(name):
 
 
 def main():
-    print('patchvmx')
+    print('patchsmc')
     print('--------')
 
     if len(sys.argv) >= 2:
