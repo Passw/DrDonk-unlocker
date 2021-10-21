@@ -52,11 +52,16 @@ KEY_KEY = b'YEK#'
 LKS_KEY = b'SKL+'
 OSK0_KEY = b'0KSO'
 OSK1_KEY = b'1KSO'
+KPPW_KEY = b'WPPK'
 
 # Haiku
 OSK0 = codecs.encode('bheuneqjbexolgurfrjbeqfthneqrqcy', 'rot_13').encode('UTF-8')
 OSK1 = codecs.encode('rnfrqbagfgrny(p)NccyrPbzchgreVap', 'rot_13').encode('UTF-8')
 
+# Hogwarts
+KPPW = 'SpecialisRevelio'
+
+# ELF Magic
 ELF_MAGIC = b'\x7fELF'
 
 if sys.version_info < (3, 8):
@@ -131,6 +136,27 @@ def setdata(vmx, offset, smc_data):
     return
 
 
+def patchkppw(vmx, offset, data):
+    # Get the KPPW key and data
+    smc_key = getkey(vmx, offset)
+    smc_data = getdata(vmx, offset, smc_key)
+    key = smc_key[0][::-1].decode('UTF-8')
+    smc_kppw_ptr = smc_key[4]
+    print(f'{key} Key Before:')
+    printkey(offset, smc_key, smc_data)
+
+    # Set the data value
+    setdata(vmx, offset, data)
+
+    # Get patched KPPW key and data
+    smc_key = getkey(vmx, offset)
+    smc_data = getdata(vmx, offset, smc_key)
+    print(f'{key} Key After:')
+    printkey(offset, smc_key, smc_data)
+
+    return
+
+
 def patchosk(vmx, offset, ptr, data):
     # Get the OSK key and data
     smc_key = getkey(vmx, offset)
@@ -171,7 +197,7 @@ def patchsmc(name):
 
         # Find '#KEY' keys
         smc0_key = vmx.find(KEY_KEY, smc0_header)
-        smc1_key = vmx.rfind(KEY_KEY, smc1_header)
+        smc1_key = vmx.find(KEY_KEY, smc1_header)
 
         # Find '+LKS' key
         smc0_lks = vmx.find(LKS_KEY, smc0_key)
@@ -184,6 +210,9 @@ def patchsmc(name):
         # Find 'OSK1' keys
         smc0_osk1 = vmx.find(OSK1_KEY, smc0_key)
         smc1_osk1 = vmx.find(OSK1_KEY, smc1_key)
+
+        # Find 'KPPW' key
+        smc1_kppw = vmx.find(KPPW_KEY, smc1_key)
 
         # Patch first vSMC table
         print('\nappleSMCTableV0 (smc.version = "0")')
@@ -214,6 +243,9 @@ def patchsmc(name):
 
         # Patch OSK1 key & get the output for ELF patching
         smc_osk_ptr = patchosk(vmx, smc1_osk1, smc_default_ptr, OSK1)
+
+        # Patch KPPW key as a marker
+        patchkppw(vmx, smc1_kppw, KPPW)
 
         # Patch relocation records if ELF executable
         vmx.seek(0)
