@@ -141,4 +141,9 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 14/10/21 3.0.6
 - Ensure errors are displayed on Windows if CMD file is run from Explorer
 
+22/10/21 3.0.7
+- Tested with Player and Workstation 16.2.0
+- Tested with Windows 11 as host
+- Do not try to copy vmware-vmx-stats if Player is installed as it is not shipped with Player
+
 (c) 2011-2021 Dave Parsons
