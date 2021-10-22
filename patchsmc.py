@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
-# NOTE: This has been simplified for future port to Go
+# NOTE: This has been simplified for possible future port to Go
 
 """
 The MIT License (MIT)
@@ -21,10 +21,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-"""
 
-"""
+
+
 vSMC Header Structure
+=====================
 Offset  Length  Struct Type Description
 ----------------------------------------
 0x00/00 0x08/08 Q      ptr  Offset to key table
@@ -47,7 +48,6 @@ AppleSMCHandleDefault
 AppleSMCHandleNTOK
 AppleSMCHandleNumKeys
 AppleSMCHandleOSK
-
 """
 
 import codecs
@@ -55,6 +55,7 @@ import mmap
 import os
 import struct
 import sys
+
 
 # Constants for header and key access
 HDR_PACK = '=QII'
@@ -161,7 +162,6 @@ def patchkppw(vmx, offset, data):
     smc_key = getkey(vmx, offset)
     smc_data = getdata(vmx, offset, smc_key)
     key = smc_key[0][::-1].decode('UTF-8')
-    smc_kppw_ptr = smc_key[4]
     print(f'{key} Key Before:')
     printkey(offset, smc_key, smc_data)
 
@@ -234,6 +234,15 @@ def patchsmc(name):
         # Find 'KPPW' key
         smc1_kppw = vmx.find(KPPW_KEY, smc1_key)
 
+        # Check to see if we have already patched the vSMC in the file
+        osk0 = getdata(vmx, smc1_osk0, getkey(vmx, smc1_osk0))
+        osk1 = getdata(vmx, smc1_osk1, getkey(vmx, smc1_osk1))
+        kppw = getdata(vmx, smc1_kppw, getkey(vmx, smc1_kppw))
+
+        if osk0 == OSK0 and osk1 == OSK1 and kppw == KPPW:
+            print(f'File {name} is already patched')
+            return
+
         # Patch first vSMC table
         print('\nappleSMCTableV0 (smc.version = "0")')
         hdr = gethdr(vmx, smc0_header)
@@ -303,6 +312,10 @@ def patchsmc(name):
         f.flush()
         vmx.close()
         f.close()
+
+
+def ispatched(name):
+    return
 
 
 def main():

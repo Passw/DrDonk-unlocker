@@ -19,9 +19,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-"""
 
-"""
+
 vSMC Header Structure
 Offset  Length  Struct Type Description
 ----------------------------------------
@@ -46,6 +45,7 @@ import os
 import re
 import struct
 import sys
+
 
 if sys.version_info < (3, 6):
     sys.stderr.write('You need Python 3.6 or later\n')

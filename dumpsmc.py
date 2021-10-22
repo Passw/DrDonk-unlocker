@@ -19,10 +19,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-"""
 
-"""
+
+
 vSMC Header Structure
+=====================
 Offset  Length  Struct Type Description
 ----------------------------------------
 0x00/00 0x08/08 Q      ptr  Offset to key table
@@ -39,6 +40,12 @@ Offset  Length  Struct Type Description
 0x0A/10 0x06/06 6x     byte Padding
 0x10/16 0x08/08 Q      ptr  Internal VMware routine
 0x18/24 0x30/48 48B    byte Data
+
+The internal VMware routines point to 4 variants:
+AppleSMCHandleDefault
+AppleSMCHandleNTOK
+AppleSMCHandleNumKeys
+AppleSMCHandleOSK
 """
 
 import mmap
