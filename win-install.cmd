@@ -54,7 +54,7 @@ mkdir .\backup
 mkdir .\backup\x64
 xcopy /F /Y /X "%InstallPath%x64\vmware-vmx.exe" .\backup\x64
 xcopy /F /Y /X "%InstallPath%x64\vmware-vmx-debug.exe" .\backup\x64
-xcopy /F /Y /X "%InstallPath%x64\vmware-vmx-stats.exe" .\backup\x64
+if exist "%InstallPath%x64\vmware-vmx-stats.exe" xcopy /F /Y /X "%InstallPath%x64\vmware-vmx-stats.exe" .\backup\x64
 xcopy /F /Y /X "%InstallPath%vmwarebase.dll" .\backup\
 
 echo.

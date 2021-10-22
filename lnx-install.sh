@@ -38,7 +38,9 @@ rm -rf ./backup 2>/dev/null
 mkdir -p ./backup
 cp -pv /usr/lib/vmware/bin/vmware-vmx ./backup/
 cp -pv /usr/lib/vmware/bin/vmware-vmx-debug ./backup/
-cp -pv /usr/lib/vmware/bin/vmware-vmx-stats ./backup/
+if [ -e /usr/lib/vmware/bin/vmware-vmx-stats ]; then
+  cp -pv /usr/lib/vmware/bin/vmware-vmx-stats ./backup/
+fi
 if [ -d /usr/lib/vmware/lib/libvmwarebase.so.0/ ]; then
     cp -pv /usr/lib/vmware/lib/libvmwarebase.so.0/libvmwarebase.so.0 ./backup/
 elif [ -d /usr/lib/vmware/lib/libvmwarebase.so/ ]; then
