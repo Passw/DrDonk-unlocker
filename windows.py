@@ -29,14 +29,17 @@ additonal packages as it will not work with the embedded interpreter!
 
 from configparser import ConfigParser
 import ctypes
+import hashlib
 import os
-import patchsmc
-import patchgos
-import setctime
 import shutil
 import subprocess
 import sys
 from winreg import *
+
+from unlock.setctime import setctime
+from unlock.patchsmc import patchsmc
+from unlock.patchgos import patchgos
+from unlock.gettools import gettools
 
 VERSION = '4.0.0'
 COPYRIGHT = '(c) David Parsons 2011-21'
@@ -73,7 +76,7 @@ def copyfile(src, dst):
     # Copy file and preserve ctime/atime/utime
     print(f'Copying file {src} to {dst}')
     shutil.copy2(src, dst)
-    setctime.setctime(dst, os.path.getctime(src))
+    setctime(dst, os.path.getctime(src))
     print(f'src ctime: {os.path.getctime(src)} mtime: {os.path.getmtime(src)} atime: {os.path.getatime(src)}')
     print(f'dst ctime: {os.path.getctime(dst)} mtime: {os.path.getmtime(dst)} atime: {os.path.getatime(dst)}')
     return
@@ -101,8 +104,9 @@ def backup(version, vmx, vmx_debug, vmx_stats, vmwarebase):
     vmx_debug_copy = joinpath(version_path, os.path.basename(vmx_debug))
     copyfile(vmx_debug, vmx_debug_copy)
 
-    vmx_stats_copy = joinpath(version_path, os.path.basename(vmx_stats))
-    copyfile(vmx_stats, vmx_stats_copy)
+    if os.path.isfile(vmx_stats):
+        vmx_stats_copy = joinpath(version_path, os.path.basename(vmx_stats))
+        copyfile(vmx_stats, vmx_stats_copy)
 
     vmwarebase_copy = joinpath(version_path, os.path.basename(vmwarebase))
     copyfile(vmwarebase, vmwarebase_copy)
@@ -110,11 +114,30 @@ def backup(version, vmx, vmx_debug, vmx_stats, vmwarebase):
 
 
 def restore(version, vmx, vmx_debug, vmx_stats, vmwarebase):
+    backup_path = joinpath(SCRIPT_FOLDER, 'backup')
+    if not os.path.exists(backup_path):
+        print(f'Error backup folder {backup_path}')
+    version_path = joinpath(backup_path, version)
+    if not os.path.exists(version_path):
+        print(f'Error backup folder {version_path}')
+
+    vmx_copy = joinpath(version_path, os.path.basename(vmx))
+    copyfile(vmx_copy, vmx)
+
+    vmx_debug_copy = joinpath(version_path, os.path.basename(vmx_debug))
+    copyfile(vmx_debug_copy, vmx_debug)
+
+    if os.path.isfile(vmx_stats):
+        vmx_stats_copy = joinpath(version_path, os.path.basename(vmx_stats))
+        copyfile(vmx_stats_copy, vmx_stats)
+
+    vmwarebase_copy = joinpath(version_path, os.path.basename(vmwarebase))
+    copyfile(vmwarebase_copy, vmwarebase)
     return
 
 
-def checksum():
-    return
+def checksum(name):
+    return hashlib.sha256(name)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -222,9 +245,12 @@ def main():
     vmwarebase = joinpath(installpath, 'vmwarebase.dll')
     vmware_tray = joinpath(installpath, 'vmware-tray.exe')
 
+    # Backup files
+    backup(productversion, vmx, vmx_debug, vmx_stats, vmwarebase)
+
     # Read the config file
     config = ConfigParser()
-    config.read('./config.toml')
+    config.read(f'{joinpath(SCRIPT_FOLDER, "./windows/config.toml")}')
 
     # Stop services
     for service in config['services']:
@@ -235,20 +261,20 @@ def main():
                 svc_stop(service)
 
     # Stop tasks
-    for service in config['services']:
-        flag = config['services'][service]
-        if flag:
-            status = svc_status(service)
-            if status != SVC_ERROR and status == SVC_RUNNING:
-                svc_stop(service)
+    # for task in config['tasks']:
+    #     flag = config['tasks'][task]
+    #     if flag:
+    #         status = svc_status(service)
+    #         if status != SVC_ERROR and status == SVC_RUNNING:
+    #             svc_stop(service)
 
-    # # Patch the vmx executables skipping stats version for Player
-    # patchsmc(vmx, False)
-    # patchsmc(vmx_debug, False)
-    # if os.path.isfile(vmx_stats):
-    #     patchsmc(vmx_stats, False)
-    #
-    # # Patch vmwarebase for Workstation and Player
+    # Patch the vmx executables skipping stats version for Player
+    patchsmc(vmx)
+    patchsmc(vmx_debug)
+    if os.path.isfile(vmx_stats):
+        patchsmc(vmx_stats)
+
+    # Patch vmwarebase for Workstation and Player
     # patchbase(vmwarebase)
 
     # Start services

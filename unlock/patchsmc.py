@@ -315,7 +315,22 @@ def patchsmc(name):
 
 
 def ispatched(name):
-    return
+    with open(name, 'r+b') as f:
+        print('File: ' + name + '\n')
+
+        # Memory map file
+        vmx = mmap.mmap(f.fileno(), 0)
+
+        # Is SpecialisRevelio present?
+        if vmx.find(KPPW) == -1:
+            flag = True
+        else:
+            flag = False
+
+    # Tidy up
+    vmx.close()
+    f.close()
+    return flag
 
 
 def main():

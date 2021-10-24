@@ -30,17 +30,17 @@ from urllib.request import urlretrieve
 
 # Build some constants
 ROOT = os.path.dirname(os.path.abspath(__file__))
-TOOL_PATH = os.path.join(ROOT, 'tools')
+TOOL_PATH = os.path.join(ROOT, '../tools')
 LOCAL_ZIP = os.path.join(TOOL_PATH, 'assets.zip')
 LOCAL_JSON = os.path.join(TOOL_PATH, 'assets.json')
 TEMP_JSON = os.path.join(TOOL_PATH, 'temp.json')
 TEMP_ZIP = os.path.join(TOOL_PATH, 'temp.zip')
-ASSETS_JSON  = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.json'
-ASSETS_ZIP  = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.zip'
+ASSETS_JSON = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.json'
+ASSETS_ZIP = 'https://raw.githubusercontent.com/DrDonk/patchersupportpkg/main/assets/assets.zip'
 UNZIPPED_PATH = os.path.join(TOOL_PATH, 'vmtools')
 
 
-def main():
+def gettools():
     print('Downloading VMware Tools for macOS')
     # Check minimal Python version is 3.6
     if sys.version_info < (3, 6):
@@ -96,4 +96,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    gettools()
