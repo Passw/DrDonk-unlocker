@@ -52,7 +52,7 @@ Explorer right click on the command file and select "Run as administrator".
 
 - win-install.cmd   - patches VMware
 - win-uninstall.cmd - restores VMware
-- win-gettools.cmd  - retrieves latest macOS guest tools
+- win-update-tools.cmd  - retrieves latest macOS guest tools
 
 ## 4. Linux
 On Linux you will need to be either root or use sudo to run the scripts.
@@ -62,7 +62,7 @@ by running chmod +x against the 2 files.
 
 - lnx-install.sh   - patches VMware
 - lnx-uninstall.sh - restores VMware
-- lnx-gettools.sh  - retrieves latest macOS guest tools
+- lnx-update-tools.sh  - retrieves latest macOS guest tools
    
 
 ## 5. VMware Downloads
