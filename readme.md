@@ -83,8 +83,8 @@ from these URLs if the script has not yet been updated:
 
 _These URLs require a VMware login to download._
 
-Version 15 and 16 of Workstation do recocnise the darwin.iso files and the tools can be installed in the usual way by 
-using the "Install VMware Tools" menu item .
+Version 15 and 16 of Workstation do recognise the darwin.iso files and the tools can be installed in the usual way by 
+using the "Install VMware Tools" menu item.
 
 Earlier versions of VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
 You will have to manually mount the darwin.iso by selecting the ISO file in the guest's settings.
