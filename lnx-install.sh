@@ -3,7 +3,7 @@ set -e
 
 echo "Unlocker 3.0.8 for VMware Workstation"
 echo "====================================="
-echo "(c) Dave Parsons 2011-21"
+echo "(c) David Parsons 2011-21"
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
