@@ -50,12 +50,10 @@ fi
 echo Patching...
 ./unlocker.py
 
-echo Getting VMware Tools...
-./gettools.py
-cp ./tools/vmtools/darwin*.* /usr/lib/vmware/isoimages/
+echo Copying VMware Tools...
+cp ./iso/darwin*.* /usr/lib/vmware/isoimages/
 
 # CD to original folder
 cd -
 
 echo Finished!
-
