@@ -1,5 +1,7 @@
 # macOS Unlocker V3.0 for VMware Workstation
 
+##This is the last release of the Python based unlocker. There is a new Go language port which is available here:
+##https://github.com/DrDonk/golocker/releases
 
 ---
 **IMPORTANT**
@@ -32,8 +34,7 @@ being patched:
 
 * Fix vmware-vmx and derivatives to allow macOS to boot
 * Fix vmwarebase.dll or .so to allow Apple to be selected during VM creation
-* Get a copy of the macOS VMware Tools for the guest
-* Fix the UEFI ROM files to allow Leopard and Snow Leopard client versions to be installed
+* Provide a copy of the macOS VMware Tools for the guest
 
 In all cases make sure VMware is not running, and any background guests have been shutdown.
 
@@ -52,7 +53,6 @@ Explorer right click on the command file and select "Run as administrator".
 
 - win-install.cmd   - patches VMware
 - win-uninstall.cmd - restores VMware
-- win-update-tools.cmd  - retrieves latest macOS guest tools
 
 ## 4. Linux
 On Linux you will need to be either root or use sudo to run the scripts.
@@ -62,7 +62,6 @@ by running chmod +x against the 2 files.
 
 - lnx-install.sh   - patches VMware
 - lnx-uninstall.sh - restores VMware
-- lnx-update-tools.sh  - retrieves latest macOS guest tools
    
 
 ## 5. VMware Downloads
@@ -76,7 +75,7 @@ These URLs will link to the latest versions of VMware's hosted products:
 * VMware Player for Linux https://www.vmware.com/go/getplayer-linux
 
 ## 6. VMware Tools
-The unlocker provides a script to get the VMware tools. There can be newer releases available which can be downloaded
+The unlocker provides the VMware tools ISO images. There can be newer releases available which can be downloaded
 from these URLs if the script has not yet been updated:
 
 * Mac OS X 10.5 - 10.10 https://customerconnect.vmware.com/en/downloads/details?downloadGroup=VMTOOLS10012&productId=491
@@ -92,15 +91,10 @@ You will have to manually mount the darwin.iso by selecting the ISO file in the 
 
 ## 7. EFI Patcher
 
-VMware will not allow the client (non-server) Leopard and Snow Leopard verions of Mac OS X to be installed due to 
-Apple's EULA. This is implememted in the virtual EFI firmware and this can be patched to override the check if you 
-want to use the client versions.
-
-Please see the efi-readme file for details on patching the ROM files used by VMware products.
+This has been removed from the unlocker as it is not working as expected and older versions of Mac OS X do not boot
+correctly on modern CPUs. 
 
 ## 8. Alternative patcher
-I would recommend using auto-unlocker instead of this unlocker as it is a better solution if Python is an issue and
-actively supported by Paolo here on GitHub.
 
 https://github.com/paolo-projects/auto-unlocker
 
@@ -146,4 +140,8 @@ modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 - Tested with Windows 11 as host
 - Do not try to copy vmware-vmx-stats if Player is installed as it is not shipped with Player
 
-(c) 2011-2021 Dave Parsons
+05/12/21 3.0.8
+- Removed the UEFI ROM patching as not functioning correctly
+- Tools ISO files now shipped in the release
+
+(c) 2011-2021 David Parsons
