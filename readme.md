@@ -1,7 +1,7 @@
 # macOS Unlocker V3.0 for VMware Workstation
 
-##This is the last release of the Python based unlocker. There is a new Go language port which is available here:
-##https://github.com/DrDonk/golocker/releases
+## This is the last release of the Python based unlocker. There is a new Go language port which is available here:
+## https://github.com/DrDonk/golocker/releases
 
 ---
 **IMPORTANT**
