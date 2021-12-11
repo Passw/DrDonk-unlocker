@@ -35,6 +35,10 @@ xcopy /F /Y /X .\backup\x64\*.* "%InstallPath%x64\"
 xcopy /F /Y /X .\backup\*.* "%InstallPath%"
 
 echo.
+echo Removing backup files...
+rd /s /q .\backup > NUL 2>&1
+
+echo.
 echo Starting VMware services...
 net start VMUSBArbService > NUL 2>&1
 net start VMAuthdService > NUL 2>&1
